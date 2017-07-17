@@ -1,0 +1,64 @@
+.\" Copyright 2011 Lars Wirzenius <liw@liw.fi>
+.\" 
+.\" This program is free software: you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation, either version 3 of the License, or
+.\" (at your option) any later version.
+.\" 
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\" 
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.\"
+.TH VMDEBOOTSTRAP 8
+.SH NAME
+vmdebootstrap \- install basic Debian system into virtual disk image
+.SH SYNOPSIS
+.SH DESCRIPTION
+.B vmdebootstrap
+installs a basic Debian system into a virtual disk image,
+for use with virtual machines,
+such as KVM, Qemu, or VirtualBox.
+It is like
+.BR debootstrap (8),
+which does the same thing, but puts the system into a directory,
+for use with
+.BR chroot (8).
+(In fact,
+.B vmdebootstrap
+is a wrapper around
+.BR debootstrap ).
+.PP
+You need to run
+.B vmdebootstrap
+as root.
+.PP
+To use the image,
+you probably want to create a virtual machine using your preferred
+virtualization technology, such as 
+.BR kvm (1),
+or
+.BR qemu (1).
+Configure the virtual machine to use the image you've created.
+Then start the virtual machine,
+and log into it via its console to configure it.
+.PP
+The image will be using
+.BR extlinux (1)
+as a boot loader.
+It has an empty root password.
+The image will not have networking configured.
+Set the root password before you configure networking.
+.SH OPTIONS
+.SH EXAMPLE
+To create an image for the stable release of Debian:
+.nf
+.IP
+sudo ./vmdebootstrap --image test.img --size 1g \\
+    --log test.log --log-level debug --verbose \\
+    --mirror http://mirror.lan/debian/
+.SH "SEE ALSO"
+.BR debootstrap (8).
